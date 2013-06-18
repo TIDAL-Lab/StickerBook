@@ -1,0 +1,82 @@
+/*
+ * Roberto Computational Literacy StickerBook
+ * Copyright Michael S. Horn (michael-horn@northwestern.edu)
+ */
+    
+body {
+   background-color: #aaa;
+   margin: 0;
+   padding: 0;
+   font-family: 'Alice', serif;
+   color: black;
+   font-size: 14pt;
+   font-weight: normal;
+}
+
+
+.page {
+   margin: 25px auto 25px auto;
+   padding: 1in;
+   background-color: white;
+   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+   width: 9in;
+   height: 6.5in;
+   position: relative;
+   overflow: hidden;
+}
+
+
+.left {
+   float: left;
+}
+
+
+h1 {
+   font-size: 56pt;
+   text-align: center;
+   display: block;
+   margin: 0;
+   font-weight: 200;
+}
+
+
+p {
+   margin: 0.3in 0.5in 0.3in 1.1in;
+   text-align: left;
+}
+
+/*
+p:first-of-type:first-letter {
+   font-size: 42pt;
+}
+*/
+
+p.prompt {
+   margin: 0.1in 0.75in;
+   font-size: 12pt;
+   text-align: center;
+}
+
+img.program {
+   display: block;
+   margin: 0.2in auto 0.1in auto;
+}
+
+
+img.illustration {
+   display: block;
+   position: absolute;
+   width: 8in;
+   height: 8in;
+   left: 1.5in;
+   top: 0.25in;
+}
+
+
+figure {
+   padding: 0;
+   margin: 0;
+   display: block;
+   width: 3.35in;
+   text-align: center;
+}
