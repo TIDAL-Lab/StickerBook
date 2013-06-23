@@ -9,7 +9,7 @@ body {
    padding: 0;
    font-family: 'Alice', serif;
    color: black;
-   font-size: 14pt;
+   font-size: 16pt;
    font-weight: normal;
 }
 
@@ -23,6 +23,7 @@ body {
    height: 6.5in;
    position: relative;
    overflow: hidden;
+   line-height: 180%;
 }
 
 
@@ -55,6 +56,35 @@ p.prompt {
    margin: 0.1in 0.75in;
    font-size: 12pt;
    text-align: center;
+}
+
+
+p.instructions {
+   text-align: left;
+   margin: 0.5in;
+   font-family: sans-serif;
+   font-size: 12pt;
+   line-height: 180%;
+   padding: 0.3in;
+   border: 1px solid black;
+   border-radius: 10px;
+   background-color: #eee;
+}
+
+
+.title {
+   color : white;
+   font-size: 90pt;
+   position: absolute;
+   top: 1in;
+   right: 0.75in;
+}
+
+
+.copyright {
+   text-align: center;
+   font-size: 9pt;
+   line-height: 170%;
 }
 
 img.program {
