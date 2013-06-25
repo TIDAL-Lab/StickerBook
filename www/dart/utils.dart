@@ -84,3 +84,14 @@ void setHtmlOpacity(String id, double opacity) {
   }
 }
 
+
+/*
+ * Sets teh background image for the given DOM element
+ */
+void setBackgroundImage(String id, String src) {
+  Element el = document.query("#${id}");
+  if (el != null) {
+    el.style.backgroundImage = "url('${src}')";
+  }
+}
+
