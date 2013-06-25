@@ -34,24 +34,12 @@ class TangibleCompiler {
   Scanner scanner;
   
   /** Used to generate new statements from top codes */
-  StatementFactory factory;
-   
-  /** Converts high-level text-based code to assembly code */
-  //TextCompiler tcompiler;
-   
-  /** Header include for generated text-based code */
-  //protected String header;
-   
-  /** Redefined skills */
-  //protected Map<String, String> skills;
+  StatementFactory generator;
    
    
   TangibleCompiler() {
     scanner    = new Scanner();
-    factory    = new StatementFactory(STATEMENTS);
-    //tcompiler  = new TextCompiler();
-    //header     = "";
-    //skills     = new java.util.HashMap<String, String>();
+    generator  = new StatementFactory(STATEMENTS);
   }
    
 
@@ -72,7 +60,7 @@ class TangibleCompiler {
     // 2. Convert topcodes to statements
     //-----------------------------------------------------------
     for (TopCode top in spots) {
-      Statement s = factory.createStatement(top);
+      Statement s = generator.createStatement(top);
       if (s != null) {
         program.addStatement(s);
       }
@@ -89,47 +77,6 @@ class TangibleCompiler {
         }
       }
     }
-
-      
-    //-----------------------------------------------------------
-    // 4. Compile skills (subroutines)
-    //-----------------------------------------------------------
-    for (Statement s in program.statements) {
-      if (s.isStartStatement) {
-        //((tidal.tern.language.Begin)s).compileSkill(skills);
-      }
-    }
-      
-      
-    //-----------------------------------------------------------
-    // 5. Convert the tangible program to a text-based program
-    //-----------------------------------------------------------
-    String code = "";
-    for (Statement s in program.statements) {
-      if (s.isStartStatement) {
-        code = s.compile(code, true);
-      }
-    }
-
-    /*      
-      String tcode = header + "\n";
-      for (String skill : skills.values()) {
-         tcode += skill + "\n";
-      }
-      
-      tcode += sw.toString();
-      program.setTextCode(tcode);
-      Log.i(TAG, tcode);
-    */
-      
-    //-----------------------------------------------------------
-    // 6. Convert the text-based code to assembly code
-    //-----------------------------------------------------------
-    /*
-      String pcode = tcompiler.compile(tcode);
-      program.setAssemblyCode(pcode);
-      Log.i(TAG, pcode);
-    */
 
     return program;
   }
