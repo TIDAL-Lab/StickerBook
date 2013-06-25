@@ -32,7 +32,8 @@ class StatementFactory {
     statements = new Map<int, Statement>();
     for (var def in definitions) {
       print("${def['name']}");
-      statements[def['code']] = _fromJSON(def);
+      Statement s = new Statement.fromJSON(def);
+      statements[def['code']] = s;
     }
   }
   
@@ -48,63 +49,9 @@ class StatementFactory {
       return null;
     }
   }
-  
-  
-  Statement _fromJSON(var d) {
-    TopCode top = new TopCode();
-    top.code = d['code'];
-    Statement s = new Statement(top);
-    s.name = d['name'];
-    s.text = d['text'];
-    if (d['start']) s.start = true;
-    if (d.containsKey('socket')) {
-      s.addConnector(new Connector(s, TYPE_IN, 'prev', 0.0, 0.0));
-    }
-    
-    if (d.containsKey('plug')) {
-      s.addConnector(new Connector(s, TYPE_OUT, 'next', 1.7, 0.0));
-    }
-    return s;
-  }
-   
-
-/*   
-  private static Statement newStatement(XmlResourceParser xml) throws Exception {
-         
-    // Create a Statement of the appropriate type
-    String cname = xml.getAttributeValue(null, "class");
-    if (cname == null) cname = "tidal.tern.compiler.Statement";
-    Statement s = (Statement)(Class.forName(cname)).newInstance();
-    
-
-    // Set the name and topcode value
-    s.setName(xml.getAttributeValue(null, "name"));
-    s.setTopCode(new TopCode(xml.getAttributeIntValue(null, "code", 0)));
-    s.setStartStatement(toBoolean(xml.getAttributeValue(null, "start")));
-    return s;
-  }
-  */ 
-  /*
-   private static Connector newConnector(Statement s, XmlResourceParser xml) {
-      int type = Connector.TYPE_IN;
-      if ("socket".equals(xml.getName())) {
-         type = Connector.TYPE_IN;
-      } else if ("plug".equals(xml.getName())) {
-         type = Connector.TYPE_OUT;
-      } else if ("param".equals(xml.getName())) {
-         type = Connector.TYPE_PARAM;
-      }
-      
-      String name = xml.getAttributeValue(null, "name");
-      if (name == null) name = "";
-      
-      String sdx = xml.getAttributeValue(null, "dx");
-      String sdy = xml.getAttributeValue(null, "dy");
-      
-      return new Connector(s, type, name, toFloat(sdx), toFloat(s'dy'));
-  }
-  */
 }
+
+
 
 var STATEMENTS = [
   
@@ -113,88 +60,89 @@ var STATEMENTS = [
     'code' : 569,
     'name' : 'Begin',
     'start' : true,
-    'text' : 'Begin',
-    'plug' : { 'dx' : 1.83, 'dy' : 0 }
+    'image' : 'begin.png',
+    'plug' : true
   },
   
   // end
   {
     'code' : 369,
     'name' : 'End',
-    'text' : '(end)',
-    'socket' : { }
+    'end' : true,
+    'image' : 'end.png',
+    'socket' : true
   },
   
   // jump
   {
     'code' : 307,
     'name' : 'Jump',
-    'text' : '(jump)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'jump.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // run
   {
     'code' : 185,
     'name' : 'Run',
-    'text' : '(run)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'run.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // walk
   {
     'code' : 405,
     'name' : 'Walk',
-    'text' : '(walk)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'walk.png',
+    'socket' : true,
+    'plug' : true
   },
   
-  // wiggle
+  // shake
   {
     'code' : 557,
-    'name' : 'Wiggle',
-    'text' : '(wiggle)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'name' : 'Shake',
+    'image' : 'shake.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // sleep
   {
     'code' : 661,
     'name' : 'Sleep',
-    'text' : '(sleep)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'sleep.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // sit
   {
     'code' : 397,
     'name' : 'Sit',
-    'text' : '(sit)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'sit.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // stand
   {
     'code' : 1189,
     'name' : 'Stand',
-    'text' : '(stand)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'stand.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // spin
   {
     'code' : 331,
     'name' : 'Spin',
-    'text' : '(spin)',
-    'socket' : { },
-    'plug' : { 'dx' : 3.4, 'dy' : 0 }
+    'image' : 'spin.png',
+    'socket' : true,
+    'plug' : true
   },
   
   // tap sensor
@@ -209,26 +157,26 @@ var STATEMENTS = [
   {
     'code' : 171,
     'name' : 'Begin Repeat',
-    'text' : '(repeat)',
-    'socket' : { 'dx' : -0.1, 'dy' : 1.42 },
-    'plug' : { 'dx' : 1.5, 'dy' : 1.42 }
+    'class' : 'Repeat',
+    'socket' : { 'dx' : -0.2, 'dy' : 0 },
+    'plug' : { 'dx' : 1.5, 'dy' : 0 }
   },
   
   // end repeat
   {
     'code' : 179,
     'name' : 'End Repeat',
-    'socket' : { 'dx' : 0, 'dy' : 1.42 },
-    'plug' : { 'dx' : 1.5, 'dy' : 1.42 }
+    'class' : 'EndRepeat',
+    'socket' : { 'dx' : -0.2, 'dy' : 0 },
+    'plug' : { 'dx' : 1.5, 'dy' : 0 }
   },
   
   // wait for
   {
     'code' : 611,
     'name' : 'Wait For',
-    'text' : '(wait-for)',
-    'socket' : { },
-    'plug' : { 'dx' : 4.5, 'dy' : 0 }
+    'socket' : true,
+    'plug' : true
   }
 ];
 
