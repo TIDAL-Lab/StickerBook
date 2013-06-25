@@ -32,33 +32,86 @@ part of StickerBook;
  */
 class Statement {
    
-  static int COMPILE_ID = 0;
-   
   static int NEST = 0;
 
-
-  /** Name of the statement */
-  String name = '';
 
   /** TopCode for this statement */
   TopCode top = null;
    
-  /** Code that this statement generates */
-  String text = '';
+  /** Name of the statement */
+  String name = '';
+
+  /** Image source */
+  String image = '';
    
   /** Is this statement a start statement */
   bool start = false;
+  
+  /** Is this statement an end statement */
+  bool end = false;
 
-  /** Statement's unique compile-time ID number */
-  int c_id;
-   
   /** List of connectors (ingoing, outgoing, and params) for this statement */
   List<Connector> connectors;
    
    
   Statement(this.top) {
-    c_id = COMPILE_ID++;
     connectors = new List<Connector>();
+  }
+  
+    
+  factory Statement.fromJSON(var d) {
+    TopCode top = new TopCode();
+    top.code = d['code'];
+    Statement s;
+    //if (d.containsKey('class')) {
+      
+    //} else {
+      s = new Statement(top);
+    //}
+
+    s.name = d['name'];
+    s.image = d['image'];
+    if (d['start']) s.start = true;
+    if (d['end']) s.end = true;
+    if (d.containsKey('socket')) {
+      Connector c = new Connector(s, TYPE_IN, 'prev', 0.0, 0.0);
+      if (d['socket'] is Map && d['socket'].containsKey('dx') && d['socket'].containsKey('dy')) {
+        c.dx = d['socket']['dx'];
+        c.dy = d['socket']['dy'];
+      }
+      s.addConnector(c);
+    }
+    
+    if (d.containsKey('plug')) {
+      Connector c = new Connector(s, TYPE_OUT, 'next', 1.7, 0.0);
+      if (d['plug'] is Map && d['plug'].containsKey('dx') && d['plug'].containsKey('dy')) {
+        c.dx = d['socket']['dx'];
+        c.dy = d['socket']['dy'];
+      }
+      s.addConnector(c);
+    }
+    return s;
+  }
+  
+  
+/**
+ * Clone the current statement
+ */
+  Statement clone(TopCode top) {
+    Statement s = new Statement(top);
+    _copy(s);
+    return s;
+  }
+  
+  
+  void _copy(Statement other) {
+    other.name = this.name;
+    other.image = this.image;
+    other.start = this.start;
+    other.end = this.end;
+    for (Connector c in connectors) {
+      other.addConnector(c.clone(other));
+    }
   }
 
 
@@ -103,55 +156,37 @@ class Statement {
     }
     return null;
   }
-   
-   
-/**
- * Translates a tangible statement into a text-based representation
- */
-  String compile(String code, bool debug) {
-    if (debug) code = code + "trace ${c_id}";
-    if (debug) code = code + 'print "${name}"';
-    code = code + text;
-    return compileNext(code, debug);
-  }
-   
-   
-  String compileNext(String code, bool debug) {
+  
+  
+  Statement getNextStatement() {
     for (Connector c in connectors) {
       if (c.isOutgoing && c.hasConnection) {
-        code += c.getConnection().compile(code, debug);
+        return c.getConnection();
       }
     }
-    return code;
+    return null;
   }
-
-
-/**
- * Clone the current statement
- */
-  Statement clone(TopCode top) {
-    Statement s = new Statement(top);
-    s.name = name;
-    s.text = text;
-    s.start = start;
-    for (Connector c in connectors) {
-      s.addConnector(c.clone(s));
+   
+   
+  bool get isCompleteProgram {
+    if (end) {
+      return true;
+    } else {
+      for (Connector c in connectors) {
+        if (c.isOutgoing && c.hasConnection) {
+          if (c.getConnection().isCompleteProgram) {
+            return true;
+          }
+        }
+      }
     }
-    return s;
+    return false;
   }
 
+
+  bool get isStartStatement => start;
   
-  bool get isStartStatement {
-    return start;
-  }
-   
-   
-  void setStartStatement(bool start) {
-    start = start;
-  }
-   
-   
-  int get compileId => c_id;
+  bool get isEndStatement => end;
    
    
   void connect(Statement other) {
@@ -168,11 +203,31 @@ class Statement {
       }
     }
   }
+}
+
+
+class Repeat extends Statement {
+  
+  Repeat(TopCode top) : super(top);
   
   
-  void draw(CanvasRenderingContext2D ctx) {
-    
+  Statement clone(TopCode top) {
+    Statement s = new Repeat(top);
+    _copy(s);
+    return s;
   }
+}
+
+
+class EndRepeat extends Statement {
   
-}   
+  EndRepeat(TopCode top) : super(top);
+  
+  
+  Statement clone(TopCode top) {
+    Statement s = new EndRepeat(top);
+    _copy(s);
+    return s;
+  }
+}
 
