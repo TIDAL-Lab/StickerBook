@@ -1,6 +1,4 @@
 /*
- * @(#) Statement.java
- * 
  * Tern Tangible Programming Language
  * Copyright (c) 2013 Michael S. Horn
  * 
@@ -25,6 +23,9 @@
 part of StickerBook;
 
 
+/**
+ * Scan a bitmap image for TopCodes
+ */
 class Scanner {
 
   ImageData image;
