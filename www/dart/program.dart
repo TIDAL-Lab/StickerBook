@@ -45,7 +45,8 @@ class Program {
   
   int timeout = 0;
   String message = "";
-  ImageElement image;
+  ImageElement illustration;
+  ImageElement block;
    
 	Program() {
     xmin       = 1600.0;
@@ -53,7 +54,8 @@ class Program {
     xmax       = 0.0;
     ymax       = 0.0;
     statements = new List<Statement>();
-    image = new ImageElement();
+    illustration = new ImageElement();
+    block = new ImageElement();
 	}
    
    
@@ -149,11 +151,12 @@ class Program {
       if (timeout > 0) {
         timeout--;
       } else {
-        timeout = 25;
         curr = curr.getNextStatement();
         if (curr != null) {
+          timeout = curr.duration;
           message = curr.name;
-          image.src = "illustrations/${curr.image}";
+          illustration.src = "illustrations/${curr.image}.png";
+          block.src = "images/block-${curr.image}.png";
         }
       }
     }
@@ -178,7 +181,8 @@ class Program {
     timeout = 20;
     if (curr != null) {
       message = curr.name;
-      image.src = "illustrations/${curr.image}";
+      illustration.src = "illustrations/${curr.image}.png";
+      block.src = "images/block-${curr.image}.png";
     }
   }
   

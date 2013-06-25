@@ -47,12 +47,6 @@ class TopCode {
          set radius(double r) => unit = r * 2 / WIDTH;
          
 
-  double get smoothOrientation {
-    int orient = ((orientation * 50 / PI).toInt() ~/ 10) * 10;
-    return (orient * PI / 50.0);
-  }
-
-         
   bool get isValid => code > 0;
   
   
@@ -180,7 +174,7 @@ class TopCode {
     int bits = code;
     double u = unit * scale;
     double r = WIDTH * u * 0.5;
-    double o = smoothOrientation;
+    double o = orientation;
     
     // background circle
     ctx.fillStyle = "white";

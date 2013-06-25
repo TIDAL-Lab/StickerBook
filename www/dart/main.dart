@@ -193,11 +193,17 @@ void animate(Timer timer) {
     c1.textAlign = 'center';
     c1.textBaseline = 'bottom';
     c1.fillText(program.message, VIDEO_WIDTH ~/ 2, VIDEO_HEIGHT - 22);
-    int iw = program.image.width;
-    int ih = program.image.height;
-    c1.drawImage(program.image,
-                 VIDEO_WIDTH ~/ 2 - iw ~/ 2,
-                 VIDEO_HEIGHT ~/ 2 - ih ~/ 2);
+    
+    int iw = program.illustration.width;
+    int ih = program.illustration.height;
+    if (program.illustration.src != null && program.illustration.src != '') {
+      c1.drawImage(program.illustration,
+                   VIDEO_WIDTH ~/ 2 - iw ~/ 2,
+                   VIDEO_HEIGHT ~/ 2 - ih ~/ 2);
+    }
+    iw = program.block.width;
+    ih = program.block.height;
+    c1.drawImage(program.block,  50, 50);
   }
   else {
     restart();

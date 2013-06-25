@@ -71,7 +71,7 @@ class Connector {
   double getTargetX() {
     TopCode top = parent.top;
     double d = top.diameter;
-    double o = top.smoothOrientation;
+    double o = top.orientation;
     double x = top.x;
     return (x + dx * d * cos(o) - dy * d * sin(o));
   }
@@ -79,7 +79,7 @@ class Connector {
   double getTargetY() {
     TopCode top = parent.top;
     double d = top.diameter;
-    double o = top.smoothOrientation;
+    double o = top.orientation;
     double y = top.y;
     return (y + dx * d * sin(o) + dy * d * cos(o));
   }
@@ -102,6 +102,7 @@ class Connector {
   bool get hasConnection {
     return other != null;
   }
+  
   
   void draw(CanvasRenderingContext2D ctx) {
     if (isOutgoing || isParameter) {

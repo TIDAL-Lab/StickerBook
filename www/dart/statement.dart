@@ -42,13 +42,16 @@ class Statement {
   String name = '';
 
   /** Image source */
-  String image = '';
+  String image = null;
    
   /** Is this statement a start statement */
   bool start = false;
   
   /** Is this statement an end statement */
   bool end = false;
+  
+  /** Duration that this statement should be displayed on the screen */
+  int duration = 25;
 
   /** List of connectors (ingoing, outgoing, and params) for this statement */
   List<Connector> connectors;
@@ -62,17 +65,27 @@ class Statement {
   factory Statement.fromJSON(var d) {
     TopCode top = new TopCode();
     top.code = d['code'];
-    Statement s;
-    //if (d.containsKey('class')) {
-      
-    //} else {
+    Statement s = null;
+    if (d.containsKey('class')) {
+      if (d['class'] == 'RepeatStatement') {
+        s = new RepeatStatement(top);
+        print("repeat statement");
+      }
+      else if (d['class'] == 'EndRepeatStatement') {
+        s = new EndRepeatStatement(top);
+        print("end repeat statement");
+      }
+    }
+    
+    if (s == null) {
       s = new Statement(top);
-    //}
+    }
 
     s.name = d['name'];
     s.image = d['image'];
     if (d['start']) s.start = true;
     if (d['end']) s.end = true;
+    if (d.containsKey('duration')) s.duration = d['duration'];
     if (d.containsKey('socket')) {
       Connector c = new Connector(s, TYPE_IN, 'prev', 0.0, 0.0);
       if (d['socket'] is Map && d['socket'].containsKey('dx') && d['socket'].containsKey('dy')) {
@@ -85,8 +98,8 @@ class Statement {
     if (d.containsKey('plug')) {
       Connector c = new Connector(s, TYPE_OUT, 'next', 1.7, 0.0);
       if (d['plug'] is Map && d['plug'].containsKey('dx') && d['plug'].containsKey('dy')) {
-        c.dx = d['socket']['dx'];
-        c.dy = d['socket']['dy'];
+        c.dx = d['plug']['dx'];
+        c.dy = d['plug']['dy'];
       }
       s.addConnector(c);
     }
@@ -109,6 +122,7 @@ class Statement {
     other.image = this.image;
     other.start = this.start;
     other.end = this.end;
+    other.duration = this.duration;
     for (Connector c in connectors) {
       other.addConnector(c.clone(other));
     }
@@ -166,6 +180,16 @@ class Statement {
     }
     return null;
   }
+  
+  
+  Statement getPrevStatement() {
+    for (Connector c in connectors) {
+      if (c.isIncoming && c.hasConnection) {
+        return c.getConnection();
+      }
+    }
+    return null;
+  }
    
    
   bool get isCompleteProgram {
@@ -196,7 +220,7 @@ class Statement {
           if (socket.isIncoming) {
             if (socket.overlaps(plug)) {
               plug.setConnection(other);
-              socket.setConnection(other);
+              socket.setConnection(this);
             }
           }
         }
@@ -206,28 +230,40 @@ class Statement {
 }
 
 
-class Repeat extends Statement {
+class RepeatStatement extends Statement {
   
-  Repeat(TopCode top) : super(top);
+  RepeatStatement(TopCode top) : super(top);
   
   
   Statement clone(TopCode top) {
-    Statement s = new Repeat(top);
+    Statement s = new RepeatStatement(top);
     _copy(s);
     return s;
   }
 }
 
 
-class EndRepeat extends Statement {
+class EndRepeatStatement extends Statement {
   
-  EndRepeat(TopCode top) : super(top);
+  EndRepeatStatement(TopCode top) : super(top);
   
   
   Statement clone(TopCode top) {
-    Statement s = new EndRepeat(top);
+    Statement s = new EndRepeatStatement(top);
     _copy(s);
     return s;
   }
+  
+  
+  Statement getNextStatement() {
+    Statement prev = this;
+    while (prev != null) {
+      prev = prev.getPrevStatement();
+      if (prev == null || prev.isStartStatement) {
+        return super.getNextStatement();
+      } else if (prev is RepeatStatement) {
+        return prev;
+      }
+    }
+  }
 }
-

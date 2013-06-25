@@ -60,7 +60,7 @@ var STATEMENTS = [
     'code' : 569,
     'name' : 'Begin',
     'start' : true,
-    'image' : 'begin.png',
+    'image' : 'begin',
     'plug' : true
   },
   
@@ -69,7 +69,7 @@ var STATEMENTS = [
     'code' : 369,
     'name' : 'End',
     'end' : true,
-    'image' : 'end.png',
+    'image' : 'end',
     'socket' : true
   },
   
@@ -77,7 +77,7 @@ var STATEMENTS = [
   {
     'code' : 307,
     'name' : 'Jump',
-    'image' : 'jump.png',
+    'image' : 'jump',
     'socket' : true,
     'plug' : true
   },
@@ -86,7 +86,7 @@ var STATEMENTS = [
   {
     'code' : 185,
     'name' : 'Run',
-    'image' : 'run.png',
+    'image' : 'run',
     'socket' : true,
     'plug' : true
   },
@@ -95,7 +95,7 @@ var STATEMENTS = [
   {
     'code' : 405,
     'name' : 'Walk',
-    'image' : 'walk.png',
+    'image' : 'walk',
     'socket' : true,
     'plug' : true
   },
@@ -104,7 +104,7 @@ var STATEMENTS = [
   {
     'code' : 557,
     'name' : 'Shake',
-    'image' : 'shake.png',
+    'image' : 'shake',
     'socket' : true,
     'plug' : true
   },
@@ -113,7 +113,7 @@ var STATEMENTS = [
   {
     'code' : 661,
     'name' : 'Sleep',
-    'image' : 'sleep.png',
+    'image' : 'sleep',
     'socket' : true,
     'plug' : true
   },
@@ -122,7 +122,7 @@ var STATEMENTS = [
   {
     'code' : 397,
     'name' : 'Sit',
-    'image' : 'sit.png',
+    'image' : 'sit',
     'socket' : true,
     'plug' : true
   },
@@ -131,7 +131,7 @@ var STATEMENTS = [
   {
     'code' : 1189,
     'name' : 'Stand',
-    'image' : 'stand.png',
+    'image' : 'stand',
     'socket' : true,
     'plug' : true
   },
@@ -140,7 +140,7 @@ var STATEMENTS = [
   {
     'code' : 331,
     'name' : 'Spin',
-    'image' : 'spin.png',
+    'image' : 'spin',
     'socket' : true,
     'plug' : true
   },
@@ -157,7 +157,9 @@ var STATEMENTS = [
   {
     'code' : 171,
     'name' : 'Begin Repeat',
-    'class' : 'Repeat',
+    'image' : 'repeat',
+    'class' : 'RepeatStatement',
+    'duration' : 5,
     'socket' : { 'dx' : -0.2, 'dy' : 0 },
     'plug' : { 'dx' : 1.5, 'dy' : 0 }
   },
@@ -166,7 +168,9 @@ var STATEMENTS = [
   {
     'code' : 179,
     'name' : 'End Repeat',
-    'class' : 'EndRepeat',
+    'image' : 'end-repeat',
+    'class' : 'EndRepeatStatement',
+    'duration' : 5,
     'socket' : { 'dx' : -0.2, 'dy' : 0 },
     'plug' : { 'dx' : 1.5, 'dy' : 0 }
   },
@@ -175,6 +179,7 @@ var STATEMENTS = [
   {
     'code' : 611,
     'name' : 'Wait For',
+    'image' : 'wait',
     'socket' : true,
     'plug' : true
   }
