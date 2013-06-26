@@ -44,6 +44,7 @@ const VIDEO_HEIGHT = 600;
 
 CanvasRenderingContext2D c1;
 ImageElement image;
+ImageElement backdrop;
 TangibleCompiler compiler;
 VideoElement video = null;
 Timer timer;
@@ -69,6 +70,9 @@ void main() {
     c1.drawImage(video, 0, 0);
     timer = new Timer.periodic(const Duration(milliseconds : 30), refreshCanvas);
   });
+  
+  backdrop = new ImageElement();
+  backdrop.src = "images/backdrop.png";
   
   // bind button events
   bindClickEvent("camera-button", startStopVideo);
@@ -172,10 +176,14 @@ void refreshCanvas(Timer timer) {
     setHtmlOpacity('scan-message', 0.0);
     setHtmlOpacity('toolbar', 1.0);
     stopVideo();
-    c1.strokeStyle = "green";
-    Rect bounds = program.getBounds;
-    c1.strokeRect(bounds.left, bounds.top, bounds.width, bounds.height);
     program.restart();
+    Rect bounds = program.getBounds;
+    id = c1.getImageData(bounds.left, bounds.top, bounds.width, bounds.height);
+    c1.fillStyle = "white";
+    c1.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+    c1.strokeStyle = "green";
+    c1.strokeRect(bounds.left, bounds.top, bounds.width, bounds.height);
+    c1.putImageData(id, bounds.left, bounds.top);    
   }
 }
 
@@ -188,6 +196,7 @@ void animate(Timer timer) {
     program.step();
     c1.fillStyle = 'white';
     c1.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);
+    //c1.drawImage(backdrop, 0, 0);
     c1.fillStyle = 'black';
     c1.font = '26pt sans-serif';
     c1.textAlign = 'center';
