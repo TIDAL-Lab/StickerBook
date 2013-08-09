@@ -268,7 +268,7 @@ class Statement {
   }
   
   
-  void drawProgram(CanvasRenderingContext2D ctx) {  
+  void drawProgram(CanvasRenderingContext2D ctx) {
     if (hasTopCode) {
       double r = top.radius * 1.5;
       ctx.fillStyle = 'green';
@@ -277,9 +277,13 @@ class Statement {
       ctx.fill();
       top.draw(ctx, 1.3);
     }
-    Statement next = getNextStatement();
-    if (next != null) {
-      next.drawProgram(ctx);
+    for (Connector c in connectors) {
+      if (c.isOutgoing && c.hasConnection) {
+        c.getConnection().drawProgram(ctx);
+      }
+      else if (c.isParameter && c.hasConnection) {
+        c.getConnection().drawProgram(ctx);
+      }
     }
   }
 }
@@ -332,10 +336,11 @@ class RepeatStatement extends Statement {
 
   
   bool doLoop() {
-    if (count == 0) {
-      return false;
-    } else if (count < 0) {
+    Statement param = getParameter();
+    if (param == null || param.value == null) {
       return true;
+    } else if (count <= 0) {
+      return false;
     } else {
       return true;
     }
