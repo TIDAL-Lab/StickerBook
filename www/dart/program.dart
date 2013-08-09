@@ -129,18 +129,10 @@ class Program {
     }
     */
     for (Statement s in statements) {
-      if (s.hasTopCode) {
-        TopCode top = s.top;
-
-        if (s.isStartStatement || s.hasIncomingConnection) {
-          double r = top.radius * 1.5;
-          ctx.fillStyle = 'green';
-          ctx.beginPath();
-          ctx.arc(top.x, top.y, r, 0, PI * 2, true);
-          ctx.fill();
+      if (s.isStartStatement) {
+        if (s.isCompleteProgram) {
+          s.drawProgram(ctx);
         }
-
-        top.draw(ctx, 1.3);
       }
     }
   }
@@ -154,7 +146,7 @@ class Program {
         curr = curr.getNextStatement();
         if (curr != null) {
           timeout = curr.duration;
-          message = curr.name;
+          message = curr.getName();
           illustration.src = "illustrations/${curr.image}.png";
           block.src = "images/block-${curr.image}.png";
         }
