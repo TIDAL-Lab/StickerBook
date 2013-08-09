@@ -52,6 +52,9 @@ class Statement {
   
   /** Duration that this statement should be displayed on the screen */
   int duration = 25;
+  
+  /** Parameter value */
+  var value = null;
 
   /** List of connectors (ingoing, outgoing, and params) for this statement */
   List<Connector> connectors;
@@ -83,14 +86,15 @@ class Statement {
 
     s.name = d['name'];
     s.image = d['image'];
-    if (d['start']) s.start = true;
-    if (d['end']) s.end = true;
+    s.value = d['value'];
+    if (d.containsKey('start')) s.start = true;
+    if (d.containsKey('end')) s.end = true;
     if (d.containsKey('duration')) s.duration = d['duration'];
     if (d.containsKey('socket')) {
       Connector c = new Connector(s, TYPE_IN, 'prev', 0.0, 0.0);
       if (d['socket'] is Map && d['socket'].containsKey('dx') && d['socket'].containsKey('dy')) {
-        c.dx = d['socket']['dx'];
-        c.dy = d['socket']['dy'];
+        c.dx = d['socket']['dx'].toDouble();
+        c.dy = d['socket']['dy'].toDouble();
       }
       s.addConnector(c);
     }
@@ -98,8 +102,17 @@ class Statement {
     if (d.containsKey('plug')) {
       Connector c = new Connector(s, TYPE_OUT, 'next', 1.7, 0.0);
       if (d['plug'] is Map && d['plug'].containsKey('dx') && d['plug'].containsKey('dy')) {
-        c.dx = d['plug']['dx'];
-        c.dy = d['plug']['dy'];
+        c.dx = d['plug']['dx'].toDouble();
+        c.dy = d['plug']['dy'].toDouble();
+      }
+      s.addConnector(c);
+    }
+    
+    if (d.containsKey('param')) {
+      Connector c = new Connector(s, TYPE_PARAM, 'param', 0.0, -3.2);
+      if (d['param'] is Map && d['param'].containsKey('dx') && d['param'].containsKey('dy')) {
+        c.dx = d['param']['dx'].toDouble();
+        c.dy = d['param']['dy'].toDouble();
       }
       s.addConnector(c);
     }
@@ -120,12 +133,18 @@ class Statement {
   void _copy(Statement other) {
     other.name = this.name;
     other.image = this.image;
+    other.value = this.value;
     other.start = this.start;
     other.end = this.end;
     other.duration = this.duration;
     for (Connector c in connectors) {
       other.addConnector(c.clone(other));
     }
+  }
+  
+  
+  String getName() {
+    return name;
   }
 
 
@@ -160,6 +179,16 @@ class Statement {
     }
     return false;
   }
+  
+  
+  bool get hasParameter {
+    for (Connector c in connectors) {
+      if (c.isParameter && c.hasConnection) {
+        return true;
+      }
+    }
+    return false;
+  }
    
    
   Statement getConnection(String name) {
@@ -185,6 +214,16 @@ class Statement {
   Statement getPrevStatement() {
     for (Connector c in connectors) {
       if (c.isIncoming && c.hasConnection) {
+        return c.getConnection();
+      }
+    }
+    return null;
+  }
+  
+  
+  Statement getParameter() {
+    for (Connector c in connectors) {
+      if (c.isParameter && c.hasConnection) {
         return c.getConnection();
       }
     }
@@ -227,10 +266,28 @@ class Statement {
       }
     }
   }
+  
+  
+  void drawProgram(CanvasRenderingContext2D ctx) {  
+    if (hasTopCode) {
+      double r = top.radius * 1.5;
+      ctx.fillStyle = 'green';
+      ctx.beginPath();
+      ctx.arc(top.x, top.y, r, 0, PI * 2, true);
+      ctx.fill();
+      top.draw(ctx, 1.3);
+    }
+    Statement next = getNextStatement();
+    if (next != null) {
+      next.drawProgram(ctx);
+    }
+  }
 }
 
 
 class RepeatStatement extends Statement {
+  
+  int count = 0;
   
   RepeatStatement(TopCode top) : super(top);
   
@@ -239,6 +296,49 @@ class RepeatStatement extends Statement {
     Statement s = new RepeatStatement(top);
     _copy(s);
     return s;
+  }
+  
+  
+  String getName() {
+    Statement param = getParameter();
+    
+    if (param == null) {
+      return "Repeat Forever";
+    }
+    else if (param.value == null) {
+      return "Repeat";
+    }
+    else if (param.value is int) {
+      return "Repeat ${param.value} Times";
+    }
+    else {
+      return "Repeat Until ${param.value}";
+    }
+  }
+  
+  
+  Statement getNextStatement() {
+    Statement param = getParameter();
+    
+    if (param != null && param.value != null && param.value is int) {
+      if (count <= 0) {
+        count = param.value - 1;
+      } else {
+        count--;
+      }
+    }
+    return super.getNextStatement();
+  }
+
+  
+  bool doLoop() {
+    if (count == 0) {
+      return false;
+    } else if (count < 0) {
+      return true;
+    } else {
+      return true;
+    }
   }
 }
 
@@ -262,7 +362,12 @@ class EndRepeatStatement extends Statement {
       if (prev == null || prev.isStartStatement) {
         return super.getNextStatement();
       } else if (prev is RepeatStatement) {
-        return prev;
+        RepeatStatement br = prev as RepeatStatement;
+        if (br.doLoop()) {
+          return br;
+        } else {
+          return super.getNextStatement();
+        }
       }
     }
   }
