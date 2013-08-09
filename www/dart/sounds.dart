@@ -21,10 +21,6 @@
  */
 part of StickerBook;
 
-
-/**
- * A couple of convenience methods for playing sounds
- */
 class Sounds {
 
   static AudioContext audio = new AudioContext();
@@ -32,20 +28,30 @@ class Sounds {
 
 
   static void loadSound(String name) {
+    AudioElement audio = new AudioElement();
+    audio.src = "sounds/$name.wav";
+    sounds[name] = audio;
+    /*
     HttpRequest http = new HttpRequest();
     http.responseType = "arraybuffer";
-    http.onLoadEnd.listen((e) {
+    http.onLoad.listen((e) {
       audio.decodeAudioData(
-          http.response, 
-          (buffer) { sounds[name] = buffer; }, 
+          http.response,
+          (buffer) { sounds[name] = buffer; },
           (err) => print(err));
     });
     http.open('GET', "sounds/$name.wav");
     http.send();
+    */
   }
 
 
   static void playSound(String name) {
+    if (sounds[name] != null) {
+      sounds[name].volume = 0.6;
+      sounds[name].play();
+    }
+    /*
     if (sounds[name] == null) return;
     AudioBufferSourceNode source = audio.createBufferSource();
     source.connect(audio.destination, 0, 0);
@@ -54,5 +60,7 @@ class Sounds {
     source.gain.value = 0.2;
     source.playbackRate.value = 1;
     source.start(0);
+    */
   }
+
 }
