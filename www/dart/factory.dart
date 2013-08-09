@@ -162,7 +162,7 @@ var STATEMENTS = [
     'duration' : 5,
     'socket' : { 'dx' : -0.2, 'dy' : 0 },
     'plug' : { 'dx' : 1.5, 'dy' : 0 },
-    'param' : { 'dx' : 0, 'dy' : -3.2 }
+    'param' : { 'dx' : 0, 'dy' : -3 }
   },
   
   // end repeat
