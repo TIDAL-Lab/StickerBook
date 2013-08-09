@@ -3,13 +3,13 @@ part of StickerBook;
 class TopCode {
   
   /** Number of sectors in the data ring */
-  const SECTORS = 13;
+  static final int SECTORS = 13;
   
   /** Width of the code in units (ring widths) */
-  const WIDTH = 8;
+  static final int WIDTH = 8;
   
   /** Span of a data sector in radians */
-  const double ARC = (2.0 * PI / 13.0);
+  static final double ARC = (2.0 * PI / 13.0);
   
   /** Symbol's id code or -1 if invalid */
   int code = -1;
