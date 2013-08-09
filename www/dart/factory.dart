@@ -161,7 +161,8 @@ var STATEMENTS = [
     'class' : 'RepeatStatement',
     'duration' : 5,
     'socket' : { 'dx' : -0.2, 'dy' : 0 },
-    'plug' : { 'dx' : 1.5, 'dy' : 0 }
+    'plug' : { 'dx' : 1.5, 'dy' : 0 },
+    'param' : { 'dx' : 0, 'dy' : -3.2 }
   },
   
   // end repeat
@@ -182,7 +183,31 @@ var STATEMENTS = [
     'image' : 'wait',
     'socket' : true,
     'plug' : true
-  }
+  },
+  
+  // number 2
+  {
+    'code' : 327,
+    'name' : '2',
+    'value' : 2,
+    'socket' : true
+  },
+  
+  // number 3
+  {
+    'code' : 205,
+    'name' : '3',
+    'value' : 3,
+    'socket' : true
+  },
+  
+  // number 4
+  {
+    'code' : 103,
+    'name' : '4',
+    'value' : 4,
+    'socket' : true
+  }  
 ];
 
 	
