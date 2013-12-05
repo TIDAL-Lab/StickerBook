@@ -188,7 +188,7 @@ class Program {
 /**
  * Returns a bounding box around a program in a bitmap image.
  */
-  Rect get getBounds {
-    return new Rect(xmin - 10, ymin - 10, (xmax - xmin) + 20, (ymax - ymin) + 20);
+  Rectangle get getBounds {
+    return new Rectangle(xmin - 10, ymin - 10, (xmax - xmin) + 20, (ymax - ymin) + 20);
   }
 }

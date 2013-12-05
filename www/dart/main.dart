@@ -58,7 +58,7 @@ void main() {
   Sounds.loadSound('ding');
   Sounds.loadSound('ping');
   
-  CanvasElement canvas = document.query("#main-canvas");
+  CanvasElement canvas = querySelector("#main-canvas");
   c1 = canvas.getContext("2d");
   //scanner = new Scanner();
   compiler = new TangibleCompiler();
@@ -102,8 +102,8 @@ void startVideo() {
         'minHeight' : VIDEO_HEIGHT
       }
     };
-    
     window.navigator.getUserMedia(audio : false, video : vconfig).then((var ms) {
+      print("hello");
       video.src = Url.createObjectUrl(ms);
       stream = ms;
     });
@@ -112,6 +112,7 @@ void startVideo() {
 
 
 void stopVideo() {
+  print("stop video");
   if (stream != null && timer != null) {
     timer.cancel();
     video.pause();
@@ -177,7 +178,7 @@ void refreshCanvas(Timer timer) {
     setHtmlOpacity('toolbar', 1.0);
     stopVideo();
     program.restart();
-    Rect bounds = program.getBounds;
+    Rectangle bounds = program.getBounds;
     id = c1.getImageData(bounds.left, bounds.top, bounds.width, bounds.height);
     c1.fillStyle = "white";
     c1.fillRect(0, 0, VIDEO_WIDTH, VIDEO_HEIGHT);

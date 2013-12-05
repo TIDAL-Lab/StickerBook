@@ -20,12 +20,12 @@ bool isIPad() {
  * Binds a click event to a button
  */
 void bindClickEvent(String id, Function callback) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     if (isIPad()) {
-      el.onTouchEnd.listen(callback);    
+      //el.onTouchEnd.listen(callback);    
     } else {
-      el.onClick.listen(callback);
+      el.onMouseUp.listen(callback);
     }
   }
 }
@@ -34,7 +34,7 @@ void bindClickEvent(String id, Function callback) {
  * Adds a class to a DOM element
  */
 void addHtmlClass(String id, String cls) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     el.classes.add(cls);
   }
@@ -45,7 +45,7 @@ void addHtmlClass(String id, String cls) {
  * Removes a class from a DOM element
  */
 void removeHtmlClass(String id, String cls) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     el.classes.remove(cls);
   }
@@ -56,7 +56,7 @@ void removeHtmlClass(String id, String cls) {
  * Sets the inner HTML for the given DOM element 
  */
 void setHtmlText(String id, String text) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     el.innerHtml = text;
   }
@@ -67,7 +67,7 @@ void setHtmlText(String id, String text) {
  * Sets the visibility state for the given DOM element
  */
 void setHtmlVisibility(String id, bool visible) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     el.style.visibility = visible ? "visible" : "hidden";
   }
@@ -78,7 +78,7 @@ void setHtmlVisibility(String id, bool visible) {
  * Sets the opacity state for the given DOM element
  */
 void setHtmlOpacity(String id, double opacity) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     el.style.opacity = "${opacity}";
   }
@@ -89,7 +89,7 @@ void setHtmlOpacity(String id, double opacity) {
  * Sets teh background image for the given DOM element
  */
 void setBackgroundImage(String id, String src) {
-  Element el = document.query("#${id}");
+  Element el = querySelector("#${id}");
   if (el != null) {
     el.style.backgroundImage = "url('${src}')";
   }
