@@ -14,13 +14,22 @@ body {
 }
 
 
+#book {
+  width: 1024px;
+  height: 768px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+
 .page {
-   margin: 25px auto 25px auto;
-   padding: 1in;
+   margin: 0;
+   padding: 75px;
    background-color: white;
-   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-   width: 9in;
-   height: 6.5in;
+   /* box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3); */
+   width: 874px;
+   height: 618px;
    position: relative;
    overflow: hidden;
    line-height: 180%;
@@ -96,10 +105,14 @@ img.program {
 img.illustration {
    display: block;
    position: absolute;
-   width: 8in;
+   /*
+   width: 10in;
    height: 8in;
-   left: 1.5in;
-   top: 0.25in;
+   left: 1.3in;
+*/
+   left: 112px;
+   top: 0px;
+   width: 800px;
 }
 
 
@@ -109,4 +122,25 @@ figure {
    display: block;
    width: 3.35in;
    text-align: center;
+}
+
+button {
+   width: 80px;
+   height: 30px;
+}
+
+#prev-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+}
+
+#next-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
 }

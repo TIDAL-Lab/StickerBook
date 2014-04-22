@@ -9,26 +9,26 @@
    <link href='http://fonts.googleapis.com/css?family=Alice' rel='stylesheet' type='text/css'>
    <link rel="stylesheet" href="main.css" type="text/css">
    <link rel="stylesheet" href="print.css" type="text/css" media="print">
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+   <script src="Stickerbook.js"></script>
 </head>
 
 <body>
 
+<div id="book">
+
 
 <!-- FRONT COVER -->
-<div class="page">
-   <img src="illustrations/title.png" style="position: absolute; top: 0; left: 0; width: 11in;">
+<div class="page" id="page1">
+   <img src="illustrations/title.png" style="position: absolute; top: 0; left: 0; width: 1024px;">
    <div class="title">
       Roberto
    </div>
 </div>
 
 
-<!-- BLANK PAGE -->
-<div class="page"></div>
-
-
 <!-- TITLE PAGE -->
-<div class="page">
+<div class="page" id="page2">
    <img src="illustrations/elated.png" style="float: left; margin-left: -0.5in; margin-top: 0.5in; width: 350px;">
       
    <h1 style="margin-top: 1in;">Roberto</h1>
@@ -42,7 +42,7 @@
 
 
 <!-- COPYRIGHT -->
-<div class="page">
+<div class="page" id="page3">
    <div class="copyright">
       <img src="images/tidal.png" style="margin: 1.5in 0 0.2in 0; width: 0.75in;"><br>
       Developed by the Tangible Interaction Design and Learning Lab<br>
@@ -57,7 +57,7 @@
 
 
 <!-- INSTRUCTIONS -->
-<div class="page">
+<div class="page" id="page4">
    <p class="instructions" style="position: relative;">
       <img src="illustrations/standing.png" style="float: right; width: 2in;">
       <b>How to use this book</b><br>
@@ -74,14 +74,14 @@
 </div>
 
 <!-- PAGE 1 -->
-<div class="page">
+<div class="page" id="page5">
    <img src="illustrations/page1.png" class="illustration">
 </div>   
    
    
    
 <!-- PAGE 2 -->   
-<div class="page">
+<div class="page" id="page6">
    
    <p>
       <!--
@@ -106,7 +106,7 @@
 </div>
 
 
-<div class="page">
+<div class="page" id="page7">
    <p style="margin-top: 0.75in;">
       <img src="illustrations/dancing.png" style="float: right; width: 300px;">
       <!--
@@ -120,7 +120,7 @@
       friends to dance with again.
       -->
       As he sat alone in the cold morning gloom, Roberto heard a squawk and yowl
-      sound out in the alley. A truck horn added a low blast, and a
+      sound out in the alley. A truck horn add a low blast, and a
       church bell chimed in with the melody. Roberto swung his legs and drummed
       out a beat.
    </p>
@@ -132,7 +132,7 @@
 </div>
       
 
-<div class="page">
+<div class="page" id="page8">
    
    <img src="images/program1.png" class="program" style="margin-top: 1.5in; width: 4.6in;">
    <p class="prompt">
@@ -140,19 +140,21 @@
       <img src="images/phone.png">
    </p>
    
+   <img src="images/star.jpg" style="position: absolute; top: 50px; left: 50px; width: 50px;">
+   
 </div>
 
 
 
 <!-- PAGE 3 -->
-<div class="page">
+<div class="page" id="page9">
    <img src="illustrations/page3.png" class="illustration">
 </div>   
    
 
    
 <!-- PAGE 4 -->   
-<div class="page">
+<div class="page" id="page10">
    
    <p>
       So he marched to the end of the street and saw a bird perched on a
@@ -183,7 +185,7 @@
 </div>
 
 
-<div class="page">
+<div class="page" id="page11">
    
    <img src="images/program2.png" class="program" style="margin-top: 1.5in; width: 6in;">
    <p class="prompt">
@@ -194,7 +196,7 @@
 
 
 <!-- PAGE 5 -->
-<div class="page">
+<div class="page" id="page12">
    
    <p>
       &ldquo;You dance too much!&rdquo; the bird squawked.
@@ -210,7 +212,7 @@
 
 
 <!-- PAGE 6 -->
-<div class="page">
+<div class="page" id="page13">
    <img src="illustrations/page6.png" class="illustration">
 </div>   
    
@@ -218,7 +220,7 @@
 
 
 <!-- PAGE 7 -->
-<div class="page">
+<div class="page" id="page14">
    <p>
       <!--
       So he walked to the corner and turned to his right, and there were three
@@ -237,7 +239,7 @@
 </div>
 
 
-<div class="page">
+<div class="page" id="page15">
    <img src="images/program2.png" class="program" style="margin-top: 1.5in; width: 6in;">
    <p class="prompt">
       Can you make Roberto do his dance three times?<br>
@@ -248,7 +250,7 @@
    
 
 <!-- PAGE 8 -->
-<div class="page">
+<div class="page" id="page16">
    <p>
       The cats all yawned and stuck their tails in the air.
       &ldquo;Dance all you want, why should we care?&rdquo;
@@ -261,15 +263,15 @@
    
 
 <!-- PAGE 9 -->
-<div class="page">
+<div class="page" id="page17">
    <img src="illustrations/page9.png" class="illustration">
 </div>
 
 
-<div class="page">
+<div class="page" id="page18">
    <p>
       By late afternoon Roberto had found many animals, but none of the birds,
-      rabbits, dogs, or squirrels wanted to dance with him.
+      rabbits, dogs, or squirrels wanted dance with him.
       
       Roberto was tired. It had been a long day and he decided 
       to take a nap under the shade of an old tree.
@@ -282,7 +284,7 @@
 
 
 <!-- PAGE 10 -->
-<div class="page">
+<div class="page" id="page19">
    <img src="images/program3.png" class="program" style="width: 5.5in; margin-top: 1.5in;">
    <p class="prompt">
       Use the stickers to make Roberto wake up when you tap on him.<br>
@@ -290,23 +292,26 @@
    </p>
 </div>   
    
-<div class="page">
+<div class="page" id="page20">
    <p style="text-align: center;">
    <img src="illustrations/yawning.png"><br>
    </p>
 </div>   
 
-<!-- PAGE 10 -->
-<div class="page">
+<!-- PAGE 11 -->
+<div class="page" id="page21">
 <!--   <img src="illustrations/standing.png"> -->
    <img src="images/program4.png" class="program" style="width: 6.75; margin-top: 1.5in;">
       <p class="prompt">
          How do you think the story ends?<br>
          <img src="images/phone.png">
       </p>
-</div>   
-   
-   
+</div>
+
+<img src="images/iconleft.png" id="prev-button">
+<img src="images/iconright.png" id="next-button">
+  
+</div>
 
 </body>
 </html>
